@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:foodea/data/api/api_service.dart';
+import 'package:foodea/data/local/local_database_service.dart';
 import 'package:foodea/provider/detail/restaurant_detail_provider.dart';
 import 'package:foodea/provider/detail/restaurant_review_provider.dart';
-import 'package:foodea/provider/favorite/favorite_list_provider.dart';
+import 'package:foodea/provider/favorite/local_database_provider.dart';
 import 'package:foodea/provider/home/restaurant_list_provider.dart';
-import 'package:foodea/provider/home/theme_provider.dart';
+import 'package:foodea/provider/setting/theme_provider.dart';
 import 'package:foodea/provider/main/index_nav_provider.dart';
 import 'package:foodea/provider/search/restaurant_search_provider.dart';
 import 'package:foodea/screen/detail/detail_screen.dart';
@@ -22,13 +23,18 @@ void main() {
           create: (context) => ApiServices(),
         ),
         ChangeNotifierProvider(
-          create: (context) => ThemeProvider(),
+          create: (context) => ThemeProvider()..getTheme(),
         ),
         ChangeNotifierProvider(
           create: (context) => IndexNavProvider(),
         ),
+        Provider(
+          create: (context) => LocalDatabaseService(),
+        ),
         ChangeNotifierProvider(
-          create: (context) => FavoriteListProvider(),
+          create: (context) => LocalDatabaseProvider(
+            context.read<LocalDatabaseService>(),
+          ),
         ),
         ChangeNotifierProvider(
           create: (context) => RestaurantListProvider(
@@ -61,7 +67,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final themeProvider = Provider.of<ThemeProvider>(context);
+    final themeProvider = context.watch<ThemeProvider>();
 
     return MaterialApp(
       title: 'Foodea',

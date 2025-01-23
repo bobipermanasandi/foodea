@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:foodea/provider/main/index_nav_provider.dart';
 import 'package:foodea/screen/favorite/favorite_screen.dart';
 import 'package:foodea/screen/home/home_screen.dart';
+import 'package:foodea/screen/setting/setting_screen.dart';
 import 'package:provider/provider.dart';
 
 class MainScreen extends StatelessWidget {
@@ -14,7 +15,8 @@ class MainScreen extends StatelessWidget {
         builder: (context, value, child) {
           return switch (value.indexBottomNavBar) {
             0 => const HomeScreen(),
-            _ => const FavoriteScreen(),
+            1 => const FavoriteScreen(),
+            _ => const SettingScreen(),
           };
         },
       ),
@@ -33,6 +35,11 @@ class MainScreen extends StatelessWidget {
             icon: Icon(Icons.favorite),
             label: "Favorites",
             tooltip: "Favorites",
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.settings),
+            label: "Settings",
+            tooltip: "Settings",
           ),
         ],
       ),

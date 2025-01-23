@@ -1,17 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:foodea/provider/home/theme_provider.dart';
 import 'package:foodea/static/navigation_route.dart';
 import 'package:foodea/style/colors/restaurant_colors.dart';
 import 'package:foodea/style/typography/restaurant_text_style.dart';
-import 'package:provider/provider.dart';
 
 class HomeHeaderWidget extends StatelessWidget {
   const HomeHeaderWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final themeProvider = Provider.of<ThemeProvider>(context);
-
     return Padding(
       padding: const EdgeInsets.only(top: 54, bottom: 16),
       child: Row(
@@ -75,16 +71,6 @@ class HomeHeaderWidget extends StatelessWidget {
                   ),
                 ),
               ),
-            ),
-          ),
-          GestureDetector(
-            onTap: () {
-              themeProvider.toggleTheme(!themeProvider.isDarkMode);
-            },
-            child: Icon(
-              (themeProvider.isDarkMode)
-                  ? Icons.light_mode_rounded
-                  : Icons.dark_mode,
             ),
           ),
         ],

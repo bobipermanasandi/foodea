@@ -1,20 +1,36 @@
 import 'package:flutter/material.dart';
-import 'package:foodea/provider/favorite/favorite_list_provider.dart';
+import 'package:foodea/provider/favorite/local_database_provider.dart';
 import 'package:foodea/screen/home/widgets/restaurant_card_widget.dart';
 import 'package:provider/provider.dart';
 
-class FavoriteScreen extends StatelessWidget {
+class FavoriteScreen extends StatefulWidget {
   const FavoriteScreen({super.key});
+
+  @override
+  State<FavoriteScreen> createState() => _FavoriteScreenState();
+}
+
+class _FavoriteScreenState extends State<FavoriteScreen> {
+  @override
+  void initState() {
+    Future.microtask(() {
+      if (mounted) {
+        context.read<LocalDatabaseProvider>().loadAllRestaurant();
+      }
+    });
+
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Favorite List"),
+        title: const Text("Favorite"),
       ),
-      body: Consumer<FavoriteListProvider>(
+      body: Consumer<LocalDatabaseProvider>(
         builder: (context, value, child) {
-          final favoriteList = value.favoriteList;
+          final favoriteList = value.restaurantList ?? [];
           return switch (favoriteList.isNotEmpty) {
             true => ListView.separated(
                 padding: EdgeInsets.zero,
