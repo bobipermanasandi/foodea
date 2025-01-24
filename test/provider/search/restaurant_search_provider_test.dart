@@ -27,7 +27,7 @@ void main() {
           isA<RestaurantSearchNoneState>());
     });
 
-    test('test load data and return empty', () async {
+    test('test search data and return empty', () async {
       final emptyResponse = RestaurantSearchResponse(
         error: false,
         founded: 0,
@@ -46,7 +46,7 @@ void main() {
       expect(state.message, 'Data Not Found');
     });
 
-    test('test load data from search and return data', () async {
+    test('test search data from search and return data', () async {
       final response = RestaurantSearchResponse(
         error: false,
         founded: 2,
@@ -85,9 +85,9 @@ void main() {
       expect(state.data[1].name, "Fairy Cafe");
     });
 
-    test('test load data and return Error', () async {
+    test('test search data and return Error', () async {
       when(mockApiService.getRestaurantSearch(dummy))
-          .thenThrow(Exception("Failed to search data restaurant"));
+          .thenThrow(Exception("Failed to search restaurant"));
 
       await restaurantSearchProvider.fetchRestaurantSearch(dummy);
 
@@ -95,7 +95,7 @@ void main() {
           isA<RestaurantSearchErrorState>());
       final state =
           restaurantSearchProvider.resultState as RestaurantSearchErrorState;
-      expect(state.error, "Exception: Failed to search data restaurant");
+      expect(state.error, "Exception: Failed to search restaurant");
     });
   });
 }
