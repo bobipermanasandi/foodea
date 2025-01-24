@@ -46,10 +46,10 @@ void main() {
     });
 
     test("test load data and return data", () async {
-      final dummyResponse = RestaurantListResponse(
+      final response = RestaurantListResponse(
         error: false,
         message: 'success',
-        count: 1,
+        count: 2,
         restaurants: [
           Restaurant(
             id: 'uewq1zg2zlskfw1e867',
@@ -73,7 +73,7 @@ void main() {
       );
 
       when(mockApiService.getRestaurantList())
-          .thenAnswer((_) async => dummyResponse);
+          .thenAnswer((_) async => response);
 
       await restaurantListProvider.fetchRestaurantList();
 
