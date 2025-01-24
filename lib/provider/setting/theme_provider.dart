@@ -1,42 +1,27 @@
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:foodea/data/local/shared_preference_service.dart';
 
 class ThemeProvider extends ChangeNotifier {
-  ThemeMode _themeMode = ThemeMode.light;
-  ThemeMode get themeMode => _themeMode;
+  final SharedPreferenceService _service;
 
-  String _message = "";
-  String get message => _message;
+  ThemeProvider(this._service) {
+    _loadTheme();
+  }
 
-  final String _keyTheme = "THEME";
+  bool _isDarkTheme = false;
 
-  Future<void> getTheme() async {
-    try {
-      final pref = await SharedPreferences.getInstance();
-      final isDarkMode = pref.getBool(_keyTheme) ?? false;
-      _themeMode = isDarkMode ? ThemeMode.dark : ThemeMode.light;
-      _message =
-          isDarkMode ? "Theme Mode is Dark Mode" : "Theme Mode is Light Mode";
-    } catch (e) {
-      _message = "Failed to get Theme";
-    }
+  bool get isDarkTheme => _isDarkTheme;
+
+  ThemeMode get currentTheme => _isDarkTheme ? ThemeMode.dark : ThemeMode.light;
+
+  Future<void> _loadTheme() async {
+    _isDarkTheme = await _service.getThemePreference();
     notifyListeners();
   }
 
-  Future<void> setTheme() async {
-    try {
-      final pref = await SharedPreferences.getInstance();
-      if (_themeMode == ThemeMode.light) {
-        _themeMode = ThemeMode.dark;
-        await pref.setBool(_keyTheme, true);
-      } else {
-        _themeMode = ThemeMode.light;
-        await pref.setBool(_keyTheme, false);
-      }
-      _message = "Set Theme Success";
-    } catch (e) {
-      _message = "Failed to set Theme";
-    }
+  Future<void> toggleTheme() async {
+    _isDarkTheme = !_isDarkTheme;
+    await _service.setThemePreference(_isDarkTheme);
     notifyListeners();
   }
 }

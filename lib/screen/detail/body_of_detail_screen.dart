@@ -13,6 +13,7 @@ import 'package:foodea/static/restaurant_review_result_state.dart';
 import 'package:foodea/style/colors/restaurant_colors.dart';
 import 'package:foodea/style/typography/restaurant_text_style.dart';
 import 'package:provider/provider.dart';
+import 'package:readmore/readmore.dart';
 
 class BodyOfDetailScreenWidget extends StatefulWidget {
   final RestaurantDetail restaurant;
@@ -128,11 +129,16 @@ class _BodyOfDetailScreenWidgetState extends State<BodyOfDetailScreenWidget> {
                 ),
               ),
             ),
-            Text(
+            ReadMoreText(
               widget.restaurant.description,
               style: RestaurantTextStyle.labelLarge.copyWith(
                 color: RestaurantColors.shades.color,
               ),
+              trimMode: TrimMode.Line,
+              trimLines: 5,
+              colorClickableText: Colors.pink,
+              trimCollapsedText: 'Show more',
+              trimExpandedText: 'Show less',
             ),
             SizedBox.square(
               dimension: 20,
